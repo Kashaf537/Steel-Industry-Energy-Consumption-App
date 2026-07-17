@@ -1,0 +1,283 @@
+<!-- Use the base template for a consistent website layout -->
+{% extends "base.html" %}
+
+<!-- Set the page title -->
+{% block title %}Predict — Energy Dashboard{% endblock %}
+
+<!-- Start of the main page content -->
+{% block content %}
+
+    <!-- ===========================
+         Units for Numeric Features
+    ============================ -->
+    <!-- Define units that will be displayed beside numeric input fields -->
+    {% set units = {
+        "Lagging_Current_Reactive.Power_kVarh": "kVarh",
+        "Leading_Current_Reactive_Power_kVarh": "kVarh",
+        "Lagging_Current_Power_Factor": "%",
+        "Leading_Current_Power_Factor": "%",
+        "NSM": "sec",
+        "Hour": "h",
+        "PowerFactorRatio": "ratio"
+    } %}
+
+    <!-- ===========================
+         Page Header
+    ============================ -->
+    <div class="predict-header">
+
+        <!-- Main page heading -->
+        <h1>Predict Energy Consumption</h1>
+
+        <!-- Short description -->
+        <p class="subtitle">
+            Enter the operating conditions below to get a real-time prediction
+            from the trained Random Forest + PCA pipeline.
+        </p>
+
+    </div>
+
+    <!-- ===========================
+         Prediction Layout
+    ============================ -->
+    <div class="predict-layout">
+
+        <!-- Prediction Form -->
+        <form method="post" action="/predict" class="predict-form">
+
+            <!-- ===========================
+                 Numeric Inputs
+            ============================ -->
+            <div class="form-section">
+
+                <!-- Section title -->
+                <h4 class="form-section-title">
+                    <span class="section-icon">⚙️</span>
+                    Sensor Readings
+                </h4>
+
+                <!-- Grid layout for numeric inputs -->
+                <div class="form-grid">
+
+                    <!-- Loop through all numeric features -->
+                    {% for col in numeric_cols %}
+
+                        <div class="form-field">
+
+                            <!-- Feature name -->
+                            <label for="{{ col }}">{{ col }}</label>
+
+                            <div class="input-wrap">
+
+                                <!-- Numeric input -->
+                                <input
+                                    type="number"
+                                    step="any"
+                                    id="{{ col }}"
+                                    name="{{ col }}"
+                                    value="{{ form_values.get(col, '%.2f'|format(numeric_stats[col].mean)) }}"
+                                    required
+                                >
+
+                                <!-- Display measurement unit if available -->
+                                {% if units.get(col) %}
+                                    <span class="input-suffix">
+                                        {{ units[col] }}
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                            <!-- Display the allowed value range -->
+                            <span class="hint">
+                                range:
+                                {{ "%.2f"|format(numeric_stats[col].min) }}
+                                –
+                                {{ "%.2f"|format(numeric_stats[col].max) }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- ===========================
+                 Categorical Inputs
+            ============================ -->
+            <div class="form-section">
+
+                <!-- Section title -->
+                <h4 class="form-section-title">
+                    <span class="section-icon">🗓️</span>
+                    Operating Conditions
+                </h4>
+
+                <!-- Grid layout -->
+                <div class="form-grid">
+
+                    <!-- Loop through all categorical features -->
+                    {% for col in categorical_cols %}
+
+                        <div class="form-field">
+
+                            <!-- Feature name -->
+                            <label for="{{ col }}">{{ col }}</label>
+
+                            <div class="input-wrap">
+
+                                <!-- Dropdown list -->
+                                <select
+                                    id="{{ col }}"
+                                    name="{{ col }}"
+                                    required
+                                >
+
+                                    <!-- Loop through available options -->
+                                    {% for option in categorical_options[col] %}
+
+                                        <!-- Preserve selected value after form submission -->
+                                        <option
+                                            value="{{ option }}"
+                                            {% if form_values.get(col) == option %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            {{ option }}
+                                        </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- ===========================
+                 Submit Button
+            ============================ -->
+            <button
+                type="submit"
+                class="btn btn-primary btn-block"
+            >
+
+                <!-- Button text -->
+                <span>Predict Usage</span>
+
+                <!-- Arrow icon -->
+                <span class="btn-arrow">→</span>
+
+            </button>
+
+        </form>
+
+        <!-- ===========================
+             Right Sidebar
+        ============================ -->
+        <aside class="predict-side">
+
+            <!-- Show prediction if available -->
+            {% if prediction is not none %}
+
+                <div class="result result-success">
+
+                    <!-- Prediction label -->
+                    <span class="result-label">
+                        Predicted Energy Usage
+                    </span>
+
+                    <!-- Predicted value -->
+                    <span class="result-value">
+                        {{ prediction }}
+                        <small>kWh</small>
+                    </span>
+
+                    <!-- Additional information -->
+                    <span class="result-note">
+                        Estimated by Random Forest on 19 PCA components
+                        (95% variance retained)
+                    </span>
+
+                </div>
+
+            <!-- Show error message if prediction fails -->
+            {% elif error %}
+
+                <div class="result result-error">
+
+                    <span class="result-label">
+                        Prediction Failed
+                    </span>
+
+                    <!-- Display error -->
+                    <p>{{ error }}</p>
+
+                </div>
+
+            <!-- Show placeholder before prediction -->
+            {% else %}
+
+                <div class="result result-placeholder">
+
+                    <!-- Placeholder icon -->
+                    <span class="result-icon">🔮</span>
+
+                    <!-- Instruction message -->
+                    <p>
+                        Fill in the form and submit to see your predicted
+                        energy usage here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+            <!-- ===========================
+                 Model Information
+            ============================ -->
+            <div class="model-info">
+
+                <!-- Sidebar title -->
+                <h4>Model Details</h4>
+
+                <!-- Algorithm name -->
+                <div class="model-stat">
+                    <span>Algorithm</span>
+                    <span>Random Forest</span>
+                </div>
+
+                <!-- Number of PCA components -->
+                <div class="model-stat">
+                    <span>Input features</span>
+                    <span>19 PCA components</span>
+                </div>
+
+                <!-- Model R² score -->
+                <div class="model-stat">
+                    <span>R² Score</span>
+                    <span>0.974</span>
+                </div>
+
+                <!-- Model RMSE -->
+                <div class="model-stat">
+                    <span>RMSE</span>
+                    <span>5.44</span>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+<!-- End of page content -->
+{% endblock %}

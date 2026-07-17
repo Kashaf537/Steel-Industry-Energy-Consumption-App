@@ -1,0 +1,132 @@
+{
+  "raw_input_columns": [
+    "Lagging_Current_Reactive.Power_kVarh",
+    "Leading_Current_Reactive_Power_kVarh",
+    "Lagging_Current_Power_Factor",
+    "Leading_Current_Power_Factor",
+    "NSM",
+    "Hour",
+    "PowerFactorRatio",
+    "WeekStatus",
+    "Day_of_week",
+    "Load_Type",
+    "Month"
+  ],
+  "numeric_cols": [
+    "Lagging_Current_Reactive.Power_kVarh",
+    "Leading_Current_Reactive_Power_kVarh",
+    "Lagging_Current_Power_Factor",
+    "Leading_Current_Power_Factor",
+    "NSM",
+    "Hour",
+    "PowerFactorRatio"
+  ],
+  "categorical_cols": [
+    "WeekStatus",
+    "Day_of_week",
+    "Load_Type",
+    "Month"
+  ],
+  "categorical_options": {
+    "WeekStatus": [
+      "Weekday",
+      "Weekend"
+    ],
+    "Day_of_week": [
+      "Friday",
+      "Monday",
+      "Saturday",
+      "Sunday",
+      "Thursday",
+      "Tuesday",
+      "Wednesday"
+    ],
+    "Load_Type": [
+      "Light_Load",
+      "Maximum_Load",
+      "Medium_Load"
+    ],
+    "Month": [
+      "April",
+      "August",
+      "December",
+      "February",
+      "January",
+      "July",
+      "June",
+      "March",
+      "May",
+      "November",
+      "October",
+      "September"
+    ]
+  },
+  "numeric_stats": {
+    "Lagging_Current_Reactive.Power_kVarh": {
+      "min": 0.0,
+      "max": 96.91,
+      "mean": 13.035383561643837
+    },
+    "Leading_Current_Reactive_Power_kVarh": {
+      "min": 0.0,
+      "max": 27.76,
+      "mean": 3.8709486301369864
+    },
+    "Lagging_Current_Power_Factor": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 80.5780562214612
+    },
+    "Leading_Current_Power_Factor": {
+      "min": 0.0,
+      "max": 100.0,
+      "mean": 84.36786986301371
+    },
+    "NSM": {
+      "min": 0.0,
+      "max": 85500.0,
+      "mean": 42750.0
+    },
+    "Hour": {
+      "min": 0.0,
+      "max": 23.0,
+      "mean": 11.5
+    },
+    "PowerFactorRatio": {
+      "min": 0.3693999999999999,
+      "max": 8.0,
+      "mean": 1.5114126400791126
+    }
+  },
+  "encoded_columns": [
+    "Lagging_Current_Reactive.Power_kVarh",
+    "Leading_Current_Reactive_Power_kVarh",
+    "Lagging_Current_Power_Factor",
+    "Leading_Current_Power_Factor",
+    "NSM",
+    "Hour",
+    "PowerFactorRatio",
+    "WeekStatus_Weekend",
+    "Day_of_week_Monday",
+    "Day_of_week_Saturday",
+    "Day_of_week_Sunday",
+    "Day_of_week_Thursday",
+    "Day_of_week_Tuesday",
+    "Day_of_week_Wednesday",
+    "Load_Type_Maximum_Load",
+    "Load_Type_Medium_Load",
+    "Month_August",
+    "Month_December",
+    "Month_February",
+    "Month_January",
+    "Month_July",
+    "Month_June",
+    "Month_March",
+    "Month_May",
+    "Month_November",
+    "Month_October",
+    "Month_September"
+  ],
+  "test_rmse": 5.4412912120164,
+  "test_r2": 0.9739534897227091
+}

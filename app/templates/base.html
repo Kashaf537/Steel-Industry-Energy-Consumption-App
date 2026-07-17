@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<!-- Root HTML document -->
+<html lang="en">
+
+<head>
+
+    <!-- Character encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Dynamic page title using Jinja template block -->
+    <title>{% block title %}Energy Dashboard{% endblock %}</title>
+
+    <!-- Improve loading speed for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!-- Import Google Fonts used throughout the website -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Link the external CSS stylesheet -->
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+    <!-- ===========================
+         Navigation Bar
+    ============================ -->
+
+    <nav class="navbar">
+
+        <!-- Website logo / application name -->
+        <div class="navbar-brand">
+            ⚡ Energy Consumption App
+        </div>
+
+        <!-- Navigation menu -->
+        <div class="navbar-links">
+
+            <!-- Home page -->
+            <a href="/">Home</a>
+
+            <!-- Dashboard page -->
+            <a href="/dashboard">Dashboard</a>
+
+            <!-- Prediction page -->
+            <a href="/predict">Predict</a>
+
+        </div>
+
+    </nav>
+
+    <!-- ===========================
+         Main Content Area
+    ============================ -->
+
+    <main class="container">
+
+        <!-- Placeholder where each page inserts its own content -->
+        {% block content %}{% endblock %}
+
+    </main>
+
+    <!-- ===========================
+         Footer
+    ============================ -->
+
+    <footer>
+
+        <!-- Footer text -->
+        <p>Week 3 Internship Task — PCA + FastAPI Dashboard</p>
+
+    </footer>
+
+</body>
+
+</html>

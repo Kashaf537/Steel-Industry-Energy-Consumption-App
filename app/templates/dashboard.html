@@ -1,0 +1,81 @@
+<!-- Use the base.html template -->
+{% extends "base.html" %}
+
+<!-- Set the page title -->
+{% block title %}Dashboard — Energy Dashboard{% endblock %}
+
+<!-- Main content starts here -->
+{% block content %}
+
+    <!-- Main heading -->
+    <h1>Exploratory Data Insights</h1>
+
+    <!-- Short description below the heading -->
+    <p class="subtitle">
+        Key patterns from the Week 2 exploratory data analysis.
+    </p>
+
+    <!-- Container for all dashboard charts -->
+    <div class="chart-grid">
+
+        <!-- ===========================
+             Chart 1
+        ============================ -->
+        <div class="chart-card">
+
+            <!-- Chart title -->
+            <h3>Average Energy Usage by Hour</h3>
+
+            <!-- Display the energy usage by hour chart -->
+            <img src="/static/energy_by_hour.png"
+                 alt="Energy usage by hour of day">
+
+            <!-- Chart description -->
+            <p>
+                Usage varies across the day, peaking during working hours.
+            </p>
+
+        </div>
+
+        <!-- ===========================
+             Chart 2
+        ============================ -->
+        <div class="chart-card">
+
+            <!-- Chart title -->
+            <h3>Average Energy Usage by Load Type</h3>
+
+            <!-- Display the load type chart -->
+            <img src="/static/energy_by_load_type.png"
+                 alt="Energy usage by load type">
+
+            <!-- Chart description -->
+            <p>
+                Maximum-load operations consume noticeably more energy than light-load ones.
+            </p>
+
+        </div>
+
+        <!-- ===========================
+             Chart 3 (Full Width)
+        ============================ -->
+        <div class="chart-card wide">
+
+            <!-- Chart title -->
+            <h3>Feature Correlation Heatmap</h3>
+
+            <!-- Display the correlation heatmap -->
+            <img src="/static/correlation_heatmap.png"
+                 alt="Correlation heatmap of numeric features">
+
+            <!-- Chart description -->
+            <p>
+                Shows how numeric features relate to each other and to energy usage.
+            </p>
+
+        </div>
+
+    </div>
+
+<!-- End of page content -->
+{% endblock %}

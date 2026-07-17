@@ -1,0 +1,125 @@
+<!-- Use the base template for a consistent layout -->
+{% extends "base.html" %}
+
+<!-- Set the title of this page -->
+{% block title %}Home — Energy Dashboard{% endblock %}
+
+<!-- Start of the main page content -->
+{% block content %}
+
+    <!-- ===========================
+         Hero Section
+    ============================ -->
+    <section class="hero">
+
+        <!-- Project badge -->
+        <span class="badge">Week 3 Internship Project</span>
+
+        <!-- Main heading -->
+        <h1>
+            Predict Energy Consumption
+            <span class="accent">in Real Time</span>
+        </h1>
+
+        <!-- Short project description -->
+        <p>
+            From raw sensor readings to a live prediction in under a second —
+            powered by a Random Forest model refined with PCA for faster,
+            lighter inference.
+        </p>
+
+        <!-- Action buttons -->
+        <div class="hero-actions">
+
+            <!-- Navigate to the dashboard -->
+            <a class="btn btn-primary" href="/dashboard">
+                View Dashboard
+            </a>
+
+            <!-- Navigate to the prediction page -->
+            <a class="btn btn-secondary" href="/predict">
+                Make a Prediction
+            </a>
+
+        </div>
+
+        <!-- ===========================
+             Project Statistics
+        ============================ -->
+        <div class="stats-row">
+
+            <!-- Display model R² score -->
+            <div class="stat">
+                <span class="stat-value">0.974</span>
+                <span class="stat-label">R² Score</span>
+            </div>
+
+            <!-- Display number of PCA components -->
+            <div class="stat">
+                <span class="stat-value">19</span>
+                <span class="stat-label">PCA Components</span>
+            </div>
+
+            <!-- Display feature reduction after PCA -->
+            <div class="stat">
+                <span class="stat-value">27 → 19</span>
+                <span class="stat-label">Features Reduced</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===========================
+         Navigation Cards
+    ============================ -->
+    <section class="cards">
+
+        <!-- Dashboard Card -->
+        <a class="card" href="/dashboard">
+
+            <!-- Dashboard icon -->
+            <div class="card-icon card-icon-blue">📊</div>
+
+            <!-- Card title -->
+            <h3>Dashboard</h3>
+
+            <!-- Card description -->
+            <p>
+                Explore energy usage patterns by hour, load type, and feature
+                correlations from the Week 2 EDA.
+            </p>
+
+            <!-- Navigation link -->
+            <span class="card-link">
+                Explore insights →
+            </span>
+
+        </a>
+
+        <!-- Prediction Card -->
+        <a class="card" href="/predict">
+
+            <!-- Prediction icon -->
+            <div class="card-icon card-icon-purple">🔮</div>
+
+            <!-- Card title -->
+            <h3>Prediction</h3>
+
+            <!-- Card description -->
+            <p>
+                Enter operating conditions and get a real-time energy
+                consumption estimate from the trained model.
+            </p>
+
+            <!-- Navigation link -->
+            <span class="card-link">
+                Try it now →
+            </span>
+
+        </a>
+
+    </section>
+
+<!-- End of page content -->
+{% endblock %}
