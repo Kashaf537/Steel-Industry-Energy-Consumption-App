@@ -144,7 +144,7 @@ accurate option and is the recommended default when resources allow it.
 
 **Retrained Models — 95% Variance PCA**
 <br>All four candidate models retrained on the 19-component PCA data.
-<br><img src="screenshots/Retrain_models(95%).png" width="100%">
+<br><img src="screenshots/retrain_models_95.png" width="100%">
 
 </td>
 </tr>
