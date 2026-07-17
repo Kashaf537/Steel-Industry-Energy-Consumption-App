@@ -255,10 +255,16 @@
                     <span>Random Forest</span>
                 </div>
 
-                <!-- Number of PCA components -->
+                <!-- What you fill in on this form -->
                 <div class="model-stat">
-                    <span>Input features</span>
-                    <span>19 PCA components</span>
+                    <span>Form inputs</span>
+                    <span>{{ numeric_cols|length + categorical_cols|length }} raw fields</span>
+                </div>
+
+                <!-- What the model actually receives after preprocessing -->
+                <div class="model-stat">
+                    <span>Model input (after PCA)</span>
+                    <span>19 components</span>
                 </div>
 
                 <!-- Model R² score -->

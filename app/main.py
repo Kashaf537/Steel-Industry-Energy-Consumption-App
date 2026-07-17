@@ -77,56 +77,30 @@ ENCODED_COLUMNS = METADATA["encoded_columns"]
 
 def build_feature_vector(form_values: dict) -> pd.DataFrame:
     """
-    Takes the raw form inputs (one value per original feature) and
-    reproduces the exact preprocessing used in training:
-    one-hot encode -> align to training column order -> scaler -> PCA.
+    Takes the raw form inputs and reproduces the exact preprocessing used
+    in training: manually construct the one-hot encoded row (get_dummies
+    is unreliable on a single row -- with only one category present it
+    always drops it, silently zeroing out every categorical input), then
+    scaler -> PCA.
     """
+    encoded = pd.DataFrame(0, index=[0], columns=ENCODED_COLUMNS, dtype=float)
 
-    # Create an empty dictionary to store processed values
-    row = {}
-
-    # Process all numerical features
     for col in NUMERIC_COLS:
+        encoded[col] = float(form_values[col])
 
-        # Convert numerical values from string to float
-        row[col] = float(form_values[col])
-
-    # Process all categorical features
     for col in CATEGORICAL_COLS:
+        value = form_values[col]
+        dummy_col = f"{col}_{value}"
+        if dummy_col in encoded.columns:
+            encoded[dummy_col] = 1
+        # if dummy_col isn't in ENCODED_COLUMNS, this value was the
+        # drop_first baseline category -- correctly stays all-zero
 
-        # Store categorical values as strings
-        row[col] = form_values[col]
+    encoded = encoded[ENCODED_COLUMNS]  # exact training column order
 
-    # Convert the dictionary into a single-row DataFrame
-    raw_df = pd.DataFrame([row])
-
-    # Apply one-hot encoding to categorical columns
-    encoded = pd.get_dummies(
-        raw_df,
-        columns=CATEGORICAL_COLS,
-        drop_first=True,
-        dtype=int
-    )
-
-    # Ensure every encoded column used during training exists
-    for col in ENCODED_COLUMNS:
-
-        # Add missing columns and fill them with 0
-        if col not in encoded.columns:
-            encoded[col] = 0
-
-    # Arrange columns in the exact same order used during training
-    encoded = encoded[ENCODED_COLUMNS]
-
-    # Apply the trained StandardScaler
     scaled = scaler.transform(encoded)
-
-    # Apply the trained PCA transformation
     reduced = pca.transform(scaled)
-
-    # Return the transformed feature vector
     return reduced
-
 
 # Home page route
 @app.get("/", response_class=HTMLResponse)
