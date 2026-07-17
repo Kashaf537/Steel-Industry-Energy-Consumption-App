@@ -19,7 +19,6 @@ real-time prediction.
 | **Week 2 Best Model** | Random Forest Regressor (selected via 5-fold cross-validation) |
 | **Dimensionality Reduction** | PCA — 27 one-hot encoded features → 19 components (95% variance retained) |
 | **Deployment** | FastAPI + Jinja2 web app with a live prediction form and EDA dashboard |
-| **Submission Deadline** | Saturday, 18 July 2026 |
 
 ---
 
